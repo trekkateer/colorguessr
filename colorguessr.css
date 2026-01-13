@@ -1,0 +1,93 @@
+body {
+    /*styling*/
+    font-family: literata, serif;
+    background: #333333;
+    color: white;
+    text-align: center;
+
+    /*positioning*/
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%; top: 50%;
+}
+h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+#colorbox {
+    /*styling*/
+    background: white;
+    width: 50vh; height: 50vh;
+    border: solid black 7px;
+    border-radius: 2.5px;
+
+    /*positioning*/
+    position: relative;
+    transform: translate(-50%, 0%);
+    left: 50%;
+}
+
+#main-form {
+    /*positioning*/
+    position: relative;
+    transform: translate(-50%, 0%);
+    left: 50%;
+}
+input {
+    /*styling*/
+    background: white;
+    color: black;
+    border: solid black 2px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
+    transition: all 0.3s ease;
+
+    /*padding and margin*/
+    margin: 15px 2px;
+    padding: 12px 24px;
+}
+input:focus {
+  outline: none;
+  border-radius: 5px;
+  box-shadow: 0 0 0 2.5px #FF000000;
+}
+
+button {
+    /*styling*/
+    background: white;
+    color: black;
+    border: solid black 2px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.3s ease;
+
+    /*padding and margin*/
+    margin: 15px 2px;
+    padding: 12px 24px;
+}
+button:hover {
+    background: darkgray;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#response-div {
+    /*styling*/
+    background: #FFFFFF00;
+    border-radius: 10px;
+    width: fit-content; height: fit-content;
+    backdrop-filter: blur(10px);
+    text-align: center;
+
+    /*positioning*/
+    position: relative;
+    transform: translate(-50%, -50%);
+    left: 50%; top: 0%;
+}
+#response {
+    color: white;
+    padding: 5px 10px 5px 10px;
+}

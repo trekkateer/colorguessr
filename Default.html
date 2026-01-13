@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+    <title>Colorguessr - John Neumann</title>
+    <link rel="stylesheet" href="colorguessr.css"></link>
+    <link rel="stylesheet" href="https://www.fonts.cdnfonts.com/css/literata"/><!--Literata font-->
+</head>
+<body>
+    <h1>Colorguessr</h1>
+    <p>Try guessing the color!</p>
+
+    <div id="colorbox"></div>
+    
+    <form id="main-form" onsubmit="submitHex(event)">
+        <input type="text" id="hex-input" size=10 placeholder="Enter Hex Value" autocomplete="off"></input>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="response-div">
+        <h3 id="response"></h3>
+    </div>
+    
+    <script src="colorguessr.js"></script>
+</body>
+</html>
