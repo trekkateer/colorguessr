@@ -4,7 +4,8 @@
 <head>
     <title>Colorguessr - John Neumann</title>
     <link rel="stylesheet" href="colorguessr.css"></link>
-    <link rel="stylesheet" href="https://www.fonts.cdnfonts.com/css/literata"/><!--Literata font-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:wght@400;600&display=swap"/><!--Literata font-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap">
     <link rel="icon" type="image/x-icon" href="monogram.ico"></link>
 </head>
 <body>
@@ -13,15 +14,22 @@
 
     <div id="colorbox"></div>
     
-    <form id="main-form" onsubmit="submitHex(event)">
-        <input type="text" id="hex-input" size=10 placeholder="Enter Hex Value" autocomplete="off"></input>
+    <form id="main-form" onsubmit="return false;">
+        <select id="modeSelect" onchange="document.location.replace('/?mode='+this.value);"}>
+            <option value="hex">Hex</option>
+            <option value="rgb">RGB</option>
+            <option value="pantone">Pantone</option>
+        </select>
+        <div id="main-form-div"></div>
         <button type="submit">Submit</button>
     </form>
 
-    <div id="response-div">
-        <h3 id="response"></h3>
+    <div id="response-container">
+        <div id="response-div">
+            <h3 id="response"></h3>
+        </div>
     </div>
     
-    <script src="colorguessr.js"></script>
+    <script src="colorguessr.js" type="module"></script>
 </body>
 </html>

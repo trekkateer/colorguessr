@@ -1,23 +1,65 @@
 //Sets up global variables
-var color = "000000";
-var mode = "hex";
+var color = "FFFFFF";
+
+//Sets up the mode
+var mode = new URL(window.location).searchParams.get("mode") ?? "hex";
+document.getElementById("modeSelect").value = mode;
+
+//Gets the pantone colors
+import { pantoneColors } from "./pantone-colors.js";
 
 //Converts to hexadecimal
 const rgbToHex = (r, g, b) => ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0');
+
+//Builds the response form
+if (mode === "hex") {
+    document.getElementById("main-form-div").innerHTML = `
+        <input type="text" id="hex-input" size=10 placeholder="Enter Hex Value" autocomplete="off"></input>
+    `;
+} else if (mode === "rgb") {
+    document.getElementById("main-form-div").innerHTML = `
+        <input type="number" id="r-input" min=0 placeholder="Red" autocomplete="off"></input>
+        <input type="number" id="g-input" min=0 placeholder="Green" autocomplete="off"></input>
+        <input type="number" id="b-input" min=0 placeholder="Blue" autocomplete="off"></input>
+    `;
+} else if (mode === "pantone") {
+    document.getElementById("main-form-div").innerHTML = `
+    <div class="dropdown dropdown-scroll">
+        <div class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <div class="input-group input-group-sm search-control">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-search"></span>
+                </span>
+                <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <ul class="dropdown-list">
+                <li role="presentation" ng-repeat='item in items | filter:eventSearch'></li>
+            </ul>
+        </div>
+    </div>
+    `;
+
+    Object.entries(pantoneColors).forEach(([key, val]) => {
+        const option = document.createElement("li");
+        option.value = key; option.innerText = key;
+        document.getElementsByClassName("dropdown-list")[0].appendChild(option);
+        document.getElementsByClassName("dropdown-list")[0].appendChild(document.createElement("br"));
+    });
+}
 
 //Determines if the input is valid
 function isInputValid(input, mode="hex") {
     //If the mode is hexadecimal
     if (mode==="hex") {
         input = input.substr(1, input.length);
-        if (input.length === 6 && /^[A-Za-z0-9]+$/.test(input)) {
-            return true;
-        } else {return false;}
+        if (input.length === 6 && /^[A-Fa-f0-9]+$/.test(input)) return true;
     } else if (mode==="rgb") {//If the mode is RGB
-
-    } else if (mode==="hsl") {//If the mode is HSL
+        input = "".input;
+        if (input.length === 3 && input < 256) return true;
+    } else if (mode==="pantone") {//If the mode is pantone
 
     }
+    return false;
 }
 
 //What happens when the hexinput is put in focus
@@ -34,7 +76,6 @@ hexInput.onfocus = function() {
     } else {//Changes the color of the box-shadow if the box has an input
         hexInput.style.boxShadow = isInputValid(this.value, "hex") ? "0 0 0 2.5px #00FF00B8":"0 0 0 2.5px #FF0000B8";;
     }
-
 }
 hexInput.onblur = function() {//What happens when the hexinput is out of focus
     if (this.value === '#') this.value = '';
@@ -44,12 +85,13 @@ hexInput.onblur = function() {//What happens when the hexinput is out of focus
 //What happens when the input is typed on
 document.getElementsByTagName("input")[0].oninput = function() {
     //Removes any response messages that exist
-    if (document.getElementById("response-div").plaintext !== '') {
-        deleteResponse();
-    }
+    if (document.getElementById("response-div").plaintext !== '') deleteResponse();
 
-    //Prevents the # from being removed
-    if (mode === "hex" && this.value === '') this.value = '#'+this.value;
+    //What to do if the mode is hex
+    if (mode === "hex") {
+        //Prevents the # from being removed
+        if (this.value==='') this.value = '#'+this.value;
+    }
 
     //Changes the box shadow to green if the input is valid
     if (isInputValid(this.value, mode)) {
@@ -58,9 +100,9 @@ document.getElementsByTagName("input")[0].oninput = function() {
 }
 
 //Adds a response dialogue
-function submitResponse(message) {
+function submitResponse(message) {console.log("response submitted");
     //Changes the color of the response div
-    const response = document.getElementById('response-div');
+    const response = document.getElementById("response-div");
     response.style.background = "#FFFFFF20";
 
     //Changes the response message
@@ -70,9 +112,10 @@ function submitResponse(message) {
         </h3>
     `;
 }
+
 function deleteResponse() {
     //Changes the color of the response div
-    const response = document.getElementById('response-div');
+    const response = document.getElementById("response-div");
     response.style.background = "#FFFFFF00";
 
     //Deletes the response message
@@ -82,17 +125,25 @@ function deleteResponse() {
 }
 
 //What happens when a user presses the submit button
-function submitHex(e) {
+document.getElementById('main-form').addEventListener('submit', function (e) {
     //Prevents the page from reloading
     e.preventDefault();
 
-    //Prevents the user from submitting an invalid value
-    input = document.getElementById("hex-input").value;
-    if (!isInputValid(input, 'hex')) {
+    //Gets the input
+    var input;
+    if (mode === "hex") {
+        input = document.getElementById("hex-input").value;
+    } else if (mode === "rgb") {
+        input = rgbToHex([document.getElementById("r-input").value, document.getElementById("r-input").value, document.getElementById("r-input").value]);
+    } else if (mode === "pantone") {
+        input = document.getElementById("pantone-input").value;
+    }
 
-    } else {submit(input, "hex");}
-}
-function submit(input, mode = "hex") {
+    //Prevents the user from submitting an invalid value
+    if (!isInputValid(input, mode)) {
+    } else {submit(input, mode);}
+});
+function submit(input, mode="hex") {
     //Removes '#' from the input
     var input = input.substr(1, input.length);
     console.log(input);
