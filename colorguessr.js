@@ -13,6 +13,13 @@ import { pantoneColors } from "./pantone-colors.js";
 //Converts RGB to hexadecimal
 const rgbToHex = (r, g, b) => ((Number(r) << 16) + (Number(g) << 8) + Number(b)).toString(16).padStart(6, '0');
 
+//Builds the reset button
+const resetButton = document.getElementById("reset-button");
+resetButton.addEventListener("click", function() {
+    // Changes the color var
+    color = resetColor(mode);
+});
+
 //Builds the response form
 if (mode === "hex") {
     document.getElementById("main-form-div").innerHTML = `
@@ -177,15 +184,26 @@ function submit(input, mode="hex") {
     } else {
         submitResponse(`Sorry, the correct answer is ${answer}.<br>You were off by a factor of rgb(${rOff}, ${gOff}, ${bOff})`);
     }
-    
-    //Changes the color to be guessed
-    if (mode === "hex" || mode === "rgb") color = (Math.random() * 0xFFFFFF * 1000000).toString(16).toUpperCase().slice(0, 6);
+
+    // Changes the color to be guessed
+    color = resetColor(mode);
+}
+
+// Changes the color to be guessed
+function resetColor(mode) {
+    var newColor
+
+    // Determines the new color
+    if (mode === "hex" || mode === "rgb") newColor = (Math.random() * 0xFFFFFF * 1000000).toString(16).toUpperCase().slice(0, 6);
     else if (mode === "pantone") {
         const pantoneKeys = Object.keys(pantoneColors);
         const randomPantone = pantoneKeys[Math.floor(Math.random() * pantoneKeys.length)];
-        color = pantoneColors[randomPantone].toUpperCase();
+        newColor = pantoneColors[randomPantone].toUpperCase();
     }
-    document.getElementById("colorbox").style = "background: #"+color+";"
+
+    // Changes the color of the colorbox and returns the new color
+    document.getElementById("colorbox").style.background = "#"+newColor;
+    return newColor
 }
 
 //Adds a response dialogue

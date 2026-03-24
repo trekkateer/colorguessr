@@ -6,16 +6,21 @@
     <link rel="stylesheet" href="colorguessr.css"></link>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:wght@400;600&display=swap"/><!--Literata font-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="monogram.ico"></link>
 </head>
 <body>
     <h1>Colorguessr</h1>
     <p>Try guessing the color!</p>
 
-    <div id="colorbox"></div>
+    <div id="colorbox">
+        <div id="reset-div">
+            <button id="reset-button"><i class="fa-solid fa-arrows-rotate"></i></button>
+        </div>
+    </div>
     
     <form id="main-form" onsubmit="return false;">
-        <select id="modeSelect" onchange="document.location.replace('/?mode='+this.value);"}>
+        <select id="modeSelect" onchange="document.location.replace('/?mode='+this.value);">
             <option value="hex">Hex</option>
             <option value="rgb">RGB</option>
             <option value="pantone">Pantone</option>
